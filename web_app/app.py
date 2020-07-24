@@ -4,38 +4,23 @@ from flask import Flask, request, render_template
 import requests
 
 template_path = os.environ.get('TEMPLATE_DIR')
-cdn_service_url = os.environ.get('CDN_URL')
+backend_service_url = os.environ.get('BACKEND_URL')
 
 app = Flask(__name__, template_folder=template_path)
 
-def get_quotes():
-    quotes_url = "http://" + cdn_service_url + "/all"
-    r = requests.get(quotes_url)
-    quotes = r.json()
-    return quotes
-
-# def get_random_quote():
-#     quotes_url = "http://" + cdn_service_url + "/random"
-#     r = requests.get(quotes_url)
-#     quote = r.json()
-#     return quote
-
-# @app.route('/random')
-# def get_random():
-#     data = {}
-#     data['hostname'] = os.uname()[1]
-#     cdn_data = get_random_quote()
-#     data['cdn_hostname'] = cdn_data['hostname']
-#     data['quote'] = cdn_data['quote']
-#     return render_template("random.html", data=data)
+def get_lorem():
+    lorem_url = "http://" + backend_service_url + "/lorem"
+    r = requests.get(lorem_url)
+    lorem = r.json()
+    return lorem
 
 @app.route('/')
-def get_all():
+def get_index():
     data = {}
     data['hostname'] = os.uname()[1]
-    cdn_data = get_quotes()
-    data['cdn_hostname'] = cdn_data['hostname']
-    data['quotes'] = cdn_data['quotes']
+    backend_data = get_lorem()
+    data['backend_hostname'] = backend_data['hostname']
+    data['lorem'] = backend_data['lorem']
     print(data)
     return render_template("index.html", data=data)
 
