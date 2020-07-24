@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  labels:
+    app: web-app
+spec:
+  replicas: 5
+  selector: 
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+        - name: web-app
+          image: autofunbot/web-app:v1
+          ports:
+            - containerPort: 5000
+          env:
+          - name: TEMPLATE_DIR
+            value: templates
+          - name: CDN_URL
+            value: 10.96.100.100

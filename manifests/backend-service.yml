@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  type: ClusterIP
+  clusterIP: 10.96.100.100
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 5050
+
